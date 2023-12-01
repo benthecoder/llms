@@ -59,8 +59,8 @@ def main():
         all_models = [
             "openai/gpt-3.5-turbo",
             "openai/gpt-4",
-            "replicate/mistral-7b",
-            "replicate/llama-2-13b",
+            # "replicate/mistral-7b",
+            # "replicate/llama-2-13b",
             "pplx/pplx-7b-online",
             "pplx/pplx-70b-online",
             "pplx/llama-2-70b-chat",
