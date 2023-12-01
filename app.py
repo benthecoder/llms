@@ -72,6 +72,10 @@ def main():
     # Column layout selection
     column_layout = st.sidebar.radio("Select no. of columns", [1, 2, 3], index=2)
 
+    st.sidebar.markdown(
+        "Build with ❤️ by [Benedict](https://www.linkedin.com/in/benedictneo/)"
+    )
+
     if st.button("Submit"):
         if user_prompt and selected_models:
             try:
