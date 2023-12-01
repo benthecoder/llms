@@ -9,10 +9,10 @@ from typing import Any, Dict, List, Optional
 import aiohttp
 import dotenv
 import replicate
+import streamlit as st
 from openai import OpenAI
 from tenacity import retry, stop_after_attempt
 
-# Load environment and set up logging
 _env_dir = (
     os.path.expanduser("~/.env")
     if os.path.isfile(os.path.expanduser("~/.env"))
@@ -22,9 +22,23 @@ dotenv.load_dotenv(_env_dir)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# configuration and constants
 _cache_file = "model_cache"
 concurrency_limit_context = ContextVar("concurrency_limit", default=10)
+
+
+def get_secret(key: str):
+    # Attempt to get the key from environment variables or st.secrets
+    secret_value = os.getenv(key) or st.secrets.get(key)
+
+    # Raise an error if the key is not found
+    if secret_value is None:
+        raise ValueError(f"'{key}' not found in environment variables or st.secrets.")
+    return secret_value
+
+
+REPLICATE_API_TOKEN = get_secret("REPLICATE_API_TOKEN")
+OPENAI_API_KEY = get_secret("OPENAI_API_KEY")
+PPLX_API_KEY = get_secret("PPLX_API_KEY")
 
 
 def limit_concurrency(max_concurrent_task):
@@ -177,7 +191,7 @@ def test():
     import json
 
     test_prompts = [
-        "Explain eigenvalues and eigenvectors to me using programming concepts",
+        "What is 1+3?",
     ]
 
     models = [
